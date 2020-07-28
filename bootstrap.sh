@@ -35,12 +35,20 @@ function install_config {
     copy_file $DOTFILES_ROOT/.zshrc ~/.zshrc
 }
 
+function install_packages {
+    local package_file=$DOTFILES_ROOT/deepin-package.list
+    for package in $(cat $package_file) ; do
+        install_package $package
+    done
+}
+
 
 function display_usage {
     echo "./bootstrap.sh -f function [args]"
     echo "functions:  "
     echo "1. update_config: update personal config."
-    echo "2. install_config: update personal config."
+    echo "2. install_config: install personal config."
+    echo "3. install_packages(sudo): install all packages."
 
 }
 

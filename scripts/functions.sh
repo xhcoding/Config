@@ -161,7 +161,7 @@ function copy_file {
 function install_package {
     local install_cmd=""
     if grep "deepin" /etc/os-release > /dev/null ; then
-        install_cmd="apt install ";
+        install_cmd="apt install -y ";
     fi
     $install_cmd $1
 }
