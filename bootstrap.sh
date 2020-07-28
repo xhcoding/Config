@@ -27,12 +27,15 @@ function update_config {
     info "update personal config"
     info "update zsh config"
     copy_file ~/.zshrc $DOTFILES_ROOT/.zshrc
+    copy_file ~/.p10k.zsh $DOTFILES_ROOT/.p10k.zsh
 }
 
 function install_config {
     info "install personal config"
     info "install zsh config"
     copy_file $DOTFILES_ROOT/.zshrc ~/.zshrc
+    copy_file $DOTFILES_ROOT/.p10k.zsh ~/.p10k.zsh
+
 }
 
 function install_packages {
