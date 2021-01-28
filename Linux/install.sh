@@ -18,7 +18,7 @@ update_software_source
 
 source ${CURRENT_DIR}/Common/functions.sh
 
-install_terminator
+install_deepin_terminal
 
 install_zsh
 

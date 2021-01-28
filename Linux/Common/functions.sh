@@ -1,12 +1,12 @@
 #!/bin/bash
 
 
-function install_terminator {
-    if [[ ! $(command -v terminator) ]]; then
-        install_package terminator
+function install_deepin_terminal {
+    if [[ ! $(command -v deepin-terminal) ]]; then
+        install_package deepin-terminal
     fi
-    cp -rf ${CURRENT_DIR}/Common/terminator ~/.config
-    log_success "terminator already install!"
+    cp -rf ${CURRENT_DIR}/Common/deepin-terminal/ ~/.config/deepin/
+    log_success "deepin_terminal already install!"
 }
 
 function install_zsh {
@@ -37,12 +37,13 @@ function install_node {
 
 function install_nvim {
     if [[ ! $(command -v nvim) ]]; then
-        install_package curl git python-dev python3-dev software-properties-common
+        install_package neovim curl git python-dev python3-dev software-properties-common
+        
         sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        cp -rf ${CURRENT_DIR}/Common/nvim ~/.config
     fi
-    log_success "nvm already install!"
+    cp -rf ${CURRENT_DIR}/Common/nvim ~/.config
+    log_success "nvim already install!"
 }
 
 function install_fonts {

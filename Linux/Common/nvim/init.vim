@@ -19,6 +19,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Initialize plugin system
 call plug#end() 
 
+let g:coc_disable_startup_warning = 1
+
 " 开启语法高亮
 syntax on
 
