@@ -11,12 +11,14 @@ function install_terminator {
 
 function install_zsh {
     if [[ ! $(command -v zsh) ]]; then
-        install_package zsh
+        install_package zsh curl
     fi
-    echo 'xiaohuan' |  chsh -s /bin/zsh
+    echo "${PASSWORD}" |  chsh -s /bin/zsh
     if [[ ! -d ${HOME}/.zinit ]]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
     fi
+    cp -rf ${CURRENT_DIR}/Common/zsh/.zshrc ${HOME}/
+    cp -rf ${CURRENT_DIR}/Common/zsh/.p10k.zsh ${HOME}/
     log_success "zsh already install!"
 }
 
@@ -44,9 +46,9 @@ function install_nvim {
 }
 
 function install_fonts {
-    if [[ ! -d ${HOME}/.local/share/fonts ]]; then
+    if [[ ! -d ${HOME}/.local/share/fonts/sarasa ]]; then
         mkdir -p ~/.local/share/fonts
-        cp -f ${CURRENT_DIR}/Common/fonts/sarasa ~/.local/share/fonts/
+        cp -fr ${CURRENT_DIR}/Common/fonts/sarasa ~/.local/share/fonts/
         pushd ~/.local/share/fonts
         mkfontscale && mkfontdir && fc-cache -fv
         popd

@@ -27,5 +27,3 @@ install_node
 install_nvim
 
 install_fonts
-
-install_vscode
