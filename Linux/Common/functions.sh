@@ -19,6 +19,7 @@ function install_zsh {
     fi
     cp -rf ${CURRENT_DIR}/Common/zsh/.zshrc ${HOME}/
     cp -rf ${CURRENT_DIR}/Common/zsh/.p10k.zsh ${HOME}/
+    cp -rf ${CURRENT_DIR}/Common/zsh/.zshf ${HOME}/
     log_success "zsh already install!"
 }
 
