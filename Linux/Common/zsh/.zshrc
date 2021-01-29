@@ -32,6 +32,10 @@ zinit wait lucid for \
 # zsh 历史
 zinit snippet OMZ::lib/history.zsh
 
+zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
+zinit light zsh-users/zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # 载入环境变量
 [[ ! -f ~/.zshf/.envrc ]] || source ~/.zshf/.envrc

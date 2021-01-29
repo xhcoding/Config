@@ -58,3 +58,7 @@ function install_fonts {
     log_success "sarasa font already install!"
 }
 
+function install_rime {
+    install_package fcitx-rime
+}
+
