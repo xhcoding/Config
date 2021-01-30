@@ -14,28 +14,40 @@ autoload -Uz _zinit
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-    zdharma/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
- blockf \
-    zsh-users/zsh-completions
+# prezto
+zinit snippet PZT::modules/helper/init.zsh
 
-# git 插件
-zinit wait lucid for \
-    zdharma/zsh-unique-id \
-    OMZ::lib/git.zsh \
- atload"unalias grv g" \
-    OMZ::plugins/git/git.plugin.zsh
+# git
+zinit ice svn
+zinit snippet PZT::modules/git
+alias gst="git status"
 
-# zsh 历史
-zinit snippet OMZ::lib/history.zsh
+# auto suggestion
+zstyle ':prezto:module:autosuggestions' color 'yes'
+zinit ice atclone'git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git external'
+zinit snippet PZT::modules/autosuggestions
 
-zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
-zinit light zsh-users/zsh-history-substring-search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# syntax highlighting
+zinit light zdharma/fast-syntax-highlighting
+
+
+# history
+zinit snippet PZT::modules/history
+
+zstyle ':prezto:module:history-substring-search' color 'yes'
+zinit ice atclone'git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search.git external'
+zinit snippet PZT::modules/history-substring-search
+
+# completion
+zinit ice atclone'git clone --depth=1 https://github.com/zsh-users/zsh-completions.git external'
+zinit snippet PZT::modules/completion
+
+# utility
+zstyle ':prezto:module:utility:ls' color 'yes'
+zinit ice svn
+zinit snippet PZT::modules/utility
+
+
 
 # 载入环境变量
 [[ ! -f ~/.zshf/.envrc ]] || source ~/.zshf/.envrc
