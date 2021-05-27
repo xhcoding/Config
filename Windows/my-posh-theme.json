@@ -8,8 +8,8 @@
             "type": "path",
             "style": "powerline",
             "powerline_symbol": "\uE0B0",
-            "foreground": "#ffffff",
-            "background": "#2AA198",
+            "foreground": "#e5e9f0",
+            "background": "#88c0d0",
             "properties": {
               "style": "folder"
             }
@@ -18,8 +18,8 @@
             "type": "git",
             "style": "powerline",
             "powerline_symbol": "\uE0B0",
-            "foreground": "#EEE8D5",
-            "background": "#f24840"
+            "foreground": "#eceff4",
+            "background": "#bf616a"
            
           }
         ]

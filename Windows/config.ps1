@@ -75,7 +75,6 @@ Install-With-Scoop-Global "vcredist2019"
 Install-With-Scoop "wox"
 Install-With-Scoop "python"
 Install-With-Scoop "python27"
-Install-With-Scoop "emacs"
 Install-With-Scoop "windows-terminal"
 Install-With-Scoop "pwsh"
 Install-With-Scoop "keeweb"
@@ -98,6 +97,10 @@ Install-With-Scoop "rustup-msvc"
 Install-With-Scoop "adoptopenjdk-hotspot-jre"
 Install-With-Scoop "plantuml"
 Install-With-Scoop-Global "zeal"
+Install-With-Scoop "sqlite"
+Install-With-Scoop "irfanview"
+Install-With-Scoop "snipaste-beta"
+Install-With-Scoop "plink"
 
 # caps to ctrl
 $hexified = "00,00,00,00,00,00,00,00,02,00,00,00,1d,00,3a,00,00,00,00,00".Split(',') | % { "0x$_" }
@@ -110,6 +113,12 @@ $emacsConfigPath = "${env:HOME}\.emacs.d"
 if (-Not $(Test-Path ${emacsConfigPath})) {
     git clone --recursive git@github.com:xhcoding/.emacs.d.git ${emacsConfigPath}
 }
+
+# 设置 emacs 服务环境变量
+if (-Not $env:EMACS_SERVER_FILE) {
+    [environment]::SetEnvironmentvariable("EMACS_SERVER_FILE", "C:\Users\xhcoding\.emacs.d\server\emacs-server-file", "User")
+}
+
 
 # 安装 choco
 if (-Not $(Test-Command "choco")) {

@@ -20,6 +20,7 @@ Install-Module oh-my-posh -Scope CurrentUser
 Install-Module PSReadLine -Scope CurrentUser
 Install-Module Pscx -Scope CurrentUser  -AllowClobber
 Install-Module VSSetup -Scope CurrentUser
+Install-Module Posh-SSH -Scope CurrentUser
 ```
 
 # TODO
