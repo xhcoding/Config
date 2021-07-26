@@ -41,14 +41,6 @@ Write-Log-Success "Install scoop successful "
 Write-Log-Info "scoop add extras bucket"
 scoop bucket add extras
 
-Write-Log-Info "scoop add versions bucket"
-scoop bucket add versions
-
-Write-Log-Info "scoop add nerd-fonts bucket"
-scoop bucket add nerd-fonts
-
-Write-Log-Info "scoop add java bucket"
-scoop bucket add java
 
 Write-Log-Info "scoop add zapps bucket"
 scoop bucket add zapps https://github.com/kkzzhizhou/scoop-zapps
@@ -56,10 +48,24 @@ scoop bucket add zapps https://github.com/kkzzhizhou/scoop-zapps
 Write-Log-Info "scoop add dorado bucket"
 scoop bucket add dorado https://github.com/chawyehsu/dorado
 
+
 function Install-With-Scoop {
     Write-Log-Info "Start install $($args[0]) ..."
     scoop install $($args[0])
     Write-Log-Success "Install $($args[0]) successful !"
+}
+
+function Install-With-Winget {
+    $packageId = $($args[0])
+    winget list --id $packageId
+    if ($?) {
+        Write-Log-Info "${packageId} already install!"
+    } else {
+        Write-Log-Info "Start install ${packageId} ..."
+        winget install ${packageId}
+        Write-Log-Success "Install ${packageId} successful !"
+    }
+
 }
 
 
@@ -71,58 +77,60 @@ function Install-With-Scoop-Global {
 
 # 安装软件
 Install-With-Scoop "git"
-Install-With-Scoop-Global "vcredist2019"
-Install-With-Scoop "wox"
-Install-With-Scoop "python"
-Install-With-Scoop "python27"
-Install-With-Scoop "windows-terminal"
-Install-With-Scoop "pwsh"
-Install-With-Scoop "keeweb"
-Install-With-Scoop "Foxmail"
-Install-With-Scoop "sarasagothic"
-Install-With-Scoop "ripgrep"
-Install-With-Scoop "fd"
-Install-With-Scoop "pandoc"
+$sshConfigPath = "${env:HOME}\.ssh\config"
+if (-Not $(Test-Path ${sshConfigPath})) {
+    New-Item -Path $sshConfigPath
+    $sshConfig = @"
+Host github.com
+    HostName github.com
+    User xhcoding
+    IdentityFile C:/Users/xhcoding/.ssh/id_ed25519_github
+"@
+    $sshConfig | Out-File $sshConfigPath -Encoding UTF8NoBOM
+}
+
+# 安装 vscode
 Install-With-Scoop "vscode"
-Install-With-Scoop "nvm-windows"
-Install-With-Scoop "cmake"
-Install-With-Scoop "https://github.com/JanDeDobbeleer/oh-my-posh3/releases/latest/download/oh-my-posh.json"
-Install-With-Scoop "universal-ctags"
-Install-With-Scoop-Global "wechatwork"
-Install-With-Scoop "wechat"
-Install-With-Scoop "neteasemusic"
-Install-With-Scoop "hugo"
-Install-With-Scoop "cwrsync"
-Install-With-Scoop "rustup-msvc"
-Install-With-Scoop "adoptopenjdk-hotspot-jre"
-Install-With-Scoop "plantuml"
-Install-With-Scoop-Global "zeal"
-Install-With-Scoop "sqlite"
-Install-With-Scoop "irfanview"
-Install-With-Scoop "snipaste-beta"
-Install-With-Scoop "plink"
+if (-Not $(Test-Command "code")) {
+    D:\Applications\Scoop\apps\vscode\current\vscode-install-context.reg
+}
+
+# 安装 perl
+Install-With-Scoop "perl"
+
+# 安装坚果云
+Install-With-Winget "Nutstore.Nutstore"
+
+# 安装 emacs
+Install-With-Scoop "emacs"
+$emacsConfigPath = "${env:HOME}\.emacs.d"
+if (-Not $(Test-Path ${emacsConfigPath})) {
+    git clone --recursive git@github.com:xhcoding/.emacs.d.git ${emacsConfigPath}
+    Copy-Item -Filter *.dll -Path "${emacsConfigPath}\lib\*" -Recurse -Destination "$env:SCOOP\apps\emacs\current\bin"
+}
+if (-Not $env:EMACS_SERVER_FILE) {
+    [environment]::SetEnvironmentvariable("EMACS_SERVER_FILE", "C:\Users\xhcoding\.emacs.d\server\emacs-server-file", "User")
+}
 
 # caps to ctrl
 $hexified = "00,00,00,00,00,00,00,00,02,00,00,00,1d,00,3a,00,00,00,00,00".Split(',') | % { "0x$_" }
 $kbLayout = 'HKLM:\System\CurrentControlSet\Control\Keyboard Layout'
 New-ItemProperty -Path $kbLayout -Name "Scancode Map" -PropertyType Binary -Value ([byte[]]$hexified) -ErrorAction SilentlyContinue
 
-# 安装 emacs 配置
 
-$emacsConfigPath = "${env:HOME}\.emacs.d"
-if (-Not $(Test-Path ${emacsConfigPath})) {
-    git clone --recursive git@github.com:xhcoding/.emacs.d.git ${emacsConfigPath}
-}
+# 安装 pwsh
+Install-With-Scoop "pwsh"
 
-# 设置 emacs 服务环境变量
-if (-Not $env:EMACS_SERVER_FILE) {
-    [environment]::SetEnvironmentvariable("EMACS_SERVER_FILE", "C:\Users\xhcoding\.emacs.d\server\emacs-server-file", "User")
-}
+# 安装 pandoc
+Install-With-Scoop "pandoc"
 
+# 安装 hugo
+Install-With-Scoop "hugo"
+Install-With-Scoop "cwrsync"
 
-# 安装 choco
-if (-Not $(Test-Command "choco")) {
-    Set-ExecutionPolicy Bypass -Scope Process -Force
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-}
+# 安装等距更纱黑体
+Install-With-Scoop "SarasaGothic-SC"
+
+# 搜索工具
+Install-With-Scoop "ripgrep"
+Install-With-Scoop "fd"
